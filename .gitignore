@@ -1,0 +1,5 @@
+.idea/*
+cluster-tool.iml
+target/*
+src/main/resources/public/package/*.tar.gz
+test.sh

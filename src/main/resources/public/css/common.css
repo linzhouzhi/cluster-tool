@@ -26,4 +26,11 @@
     border-color: #e1e4e8;
 }
 
+.status-success{
+    color:#5cb85c;
+}
+
+.status-fail{
+    color:#d9534f;
+}
 

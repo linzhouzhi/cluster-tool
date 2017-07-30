@@ -143,6 +143,7 @@ var ajax_loading= {
 		is_loading: true,
 		data_type: 'text',
 		type: 'GET',
+		dataType:"json",
 		level2: false,
 		set_data_type: function( data_type )
 		{
@@ -213,6 +214,7 @@ var ajax_loading= {
 					url : this.url,
 					dataType : this.data_type,
 					type : this.type,
+					contentType:"application/json",
 					error : sparrow.bind( this.error_handle, this ),
 					success: sparrow.bind( this.success_handle, this ),
 					complete: sparrow.bind( this.complete_handle, this )

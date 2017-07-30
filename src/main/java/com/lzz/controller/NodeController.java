@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -19,10 +20,13 @@ public class NodeController {
         return "node_manager";
     }
 
-    @RequestMapping("/list")
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public JSONObject list(@RequestBody String jsonBody){
-        return new JSONObject();
+        JSONObject reqObject = JSONObject.fromObject(jsonBody);
+        NodeLogic nodeLogic = new NodeLogic();
+        JSONObject jsonObject = nodeLogic.listNode(reqObject);
+        return jsonObject;
     }
 
     @RequestMapping("/add")
@@ -31,6 +35,24 @@ public class NodeController {
         JSONObject reqObject = JSONObject.fromObject(jsonBody);
         NodeLogic nodeLogic = new NodeLogic();
         JSONObject result = nodeLogic.addNode( reqObject );
+        return result;
+    }
+
+    @RequestMapping("/move_cluster")
+    @ResponseBody
+    public JSONObject moveCluster(@RequestBody String jsonBody){
+        JSONObject reqObject = JSONObject.fromObject(jsonBody);
+        NodeLogic nodeLogic = new NodeLogic();
+        JSONObject result = nodeLogic.moveCluster(reqObject);
+        return result;
+    }
+
+    @RequestMapping("/delete_node")
+    @ResponseBody
+    public JSONObject deleteNode(@RequestBody String jsonBody){
+        JSONObject reqObject = JSONObject.fromObject(jsonBody);
+        NodeLogic nodeLogic = new NodeLogic();
+        JSONObject result = nodeLogic.deleteNode(reqObject);
         return result;
     }
 

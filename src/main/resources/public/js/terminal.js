@@ -40,11 +40,22 @@ $(function () {
     $("#terminal-input-preix").val( init_terminal_input_preix_val() );
 
     $( "#send" ).click(function() {
-        var data_preix = init_terminal_input_preix_val();
-
-        var message = ">> " + $("#terminal-input").val();
+        var content = $("#terminal-input").val().trim();
+        if( content == "undefine" || content == "" ){
+            $("#terminal-content").append("<p> 无效指令 !!!!</p>");
+            return;
+        }
+        var cmd = "";
+        // 如果 .. 开头就忽略前缀
+        if( content.startsWith("..", 0) ){
+            cmd = content.substr(2).trim();
+        }else{
+            var data_preix = init_terminal_input_preix_val();
+            cmd = data_preix + " " + content;
+        }
+        var message = ">> " + content;
         $("#terminal-content").append("<p>" + message + "</p>");
-        send_msg( data_preix + " " + $("#terminal-input").val() );
+        send_msg( cmd );
     });
     $("#footer").click(function(){
         $("#terminal-input").focus();

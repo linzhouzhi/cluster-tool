@@ -222,7 +222,8 @@ $(function () {
             add_node_form_init();
             $("#confirm-add-node").click(function(){
                 var data = {};
-                data["clusterid"] = window.clusterid;
+                var cluster_data = JSON.parse( get_cookie("cluster_data") );
+                data["clusterid"] = cluster_data.clusterid;
                 data["ip"] = $("input[name='ip']").val();
                 data["port"] = $("input[name='port']").val();
                 data["username"] = $("input[name='username']").val();

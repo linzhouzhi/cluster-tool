@@ -1,9 +1,9 @@
+package com.lzz.logic;
+
 import com.lzz.model.MasterNode;
 import com.lzz.model.SlaveNode;
-import com.lzz.util.RemoteShellTool;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
 import redis.clients.jedis.Jedis;
 
 import java.io.BufferedReader;
@@ -16,43 +16,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by lzz on 2017/7/29.
+ * Created by lzz on 2017/8/4.
  */
-public class TestJedis {
-    public static void main(String[] args){
-        RemoteShellTool rms = new RemoteShellTool("127.0.0.1", "lzz", "363216", "utf-8");
-        String[] cmds = new String[5];
-        cmds[0] = "cd /Users/lzz/soft_install/redis/my-redis";
-        cmds[1] = "/usr/local/bin/wget http://localhost:8080/package/redis-install.sh";
-        cmds[2] = "chmod 775 redis-install.sh";
-        cmds[3] = "./redis-install.sh";
-        String cmd = StringUtils.join( cmds, ";");
-        //System.out.println( cmd );
-        //String result = rms.exec( cmd );
-        String result = rms.exec( "ls /" );
-        System.out.println(result);
-    }
+public class MonitorLogic {
 
-    @Test
-    public void testJedis(){
-        Jedis jedis = new Jedis("127.0.0.1",8018);
-        String s = jedis.asking();
-        System.out.println( s );
-        //jedis.clusterMeet("127.0.0.1", 8006);
-    }
-
-    @Test
-    public void testMonitor1(){
-        Jedis jedis = new Jedis("127.0.0.1",8007);
-        String s = jedis.info();
-        System.out.println( s );
-    }
-
-    @Test
-    public void testNodes() throws IOException {
+    public JSONObject nodeList() throws IOException {
         List<SlaveNode> nodes = getNodes();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", "cluster");
+        jsonObject.put("status", "success");
         List<MasterNode> children = new LinkedList<>();
         // 添加 master
         for(SlaveNode node : nodes){
@@ -80,6 +52,7 @@ public class TestJedis {
                         childrens = new ArrayList<>();
                     }
                     childrens.add( childrenNode );
+                    node.setChildren( childrens );
                 }
             }
         }
@@ -96,21 +69,14 @@ public class TestJedis {
                 slaveNode.setHost( node.getHost() );
                 slaveNode.setMaster( node.getMaster() );
                 slaveNode.setStatus( node.getStatus() );
+                oneMaster.add( slaveNode );
             }else {
                 multMaster.add( node );
             }
         }
         multMaster.addAll(oneMaster);
         jsonObject.put("children", multMaster);
-        System.out.println( jsonObject );
-
-    }
-
-    @Test
-    public void test1(){
-        Jedis jedis = new Jedis("127.0.0.1",8007);
-        String nodestr = jedis.clusterNodes();
-        System.out.println( nodestr );
+        return jsonObject;
     }
 
     public List<SlaveNode> getNodes() throws IOException {
@@ -121,7 +87,6 @@ public class TestJedis {
         BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(nodestr.getBytes(Charset.forName("utf8"))), Charset.forName("utf8")));
         String line;
         while ( (line = br.readLine()) != null ) {
-            System.out.println( line );
             if(!line.trim().equals("")){
                 String[] arr = line.split(" ");
                 if( arr.length > 4 ){
@@ -155,5 +120,4 @@ public class TestJedis {
         }
         return  list;
     }
-
 }

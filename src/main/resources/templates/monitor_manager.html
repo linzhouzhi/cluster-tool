@@ -4,17 +4,34 @@
     <title>cluster tool</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-<link href="/css/terminal.css" rel="stylesheet" />
-<link href="../vender/sparrow/sparrow.css" rel="stylesheet" charset="utf-8" />
 
+<link href="../vender/sparrow/sparrow.css" rel="stylesheet" charset="utf-8" />
 <link href="../vender/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" charset="utf-8" />
 <link href="../css/common.css" rel="stylesheet" charset="utf-8" />
 <!-- 4 include the jQuery library -->
 <script src="../vender/jQuery/jquery-2.2.3.min.js"></script>
-<script src="../vender/bootstrap-3.3.7-dist/js/bootstrap3-typeahead.js"></script>
-<script src="/webjars/sockjs-client/sockjs.min.js"></script>
-<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+
 <style>
+
+    .node {
+        cursor: pointer;
+    }
+
+    .node circle {
+        fill: #fff;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+    }
+
+    .node text {
+        font: 10px sans-serif;
+    }
+
+    .link {
+        fill: none;
+        stroke: #ccc;
+        stroke-width: 1.5px;
+    }
 
 </style>
 <body>
@@ -51,22 +68,7 @@
 </nav>
 <div class="clearfix nav-height"></div>
 
-<div id="node-list-div"></div>
-
-<div class="container-fluid" id="footer">
-    <div id="terminal">
-        <pre id="terminal-content"></pre>
-        <form class="form-inline">
-            <div class="form-group">
-                <input type="text" id="terminal-input-preix"  placeholder="/opt/app/install/redis..." data-provide="typeahead"/>
-            </div>
-            <div class="form-group">
-                <input type="text" id="terminal-input"  placeholder=">>" data-provide="typeahead"/>
-            </div>
-            <button id="send" class="btn btn-default" type="submit">Send</button>
-        </form>
-    </div><!-- .row -->
-</div>
+<div id="monitor-list-div"></div>
 
 <script src="../vender/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <script src="../vender/sparrow/layer/layer.js"></script>
@@ -79,9 +81,9 @@
 <script src="../vender/sparrow/pack.js"></script>
 <script src="../vender/sparrow/smarty.js"></script>
 <script src="../vender/sparrow/validate.js"></script>
+<script src="/js/monitor_manager.js"></script>
 <script src="/js/common.js"></script>
-<script src="/js/terminal.js"></script>
-<script src="/js/node_manager.js"></script>
+<script src="../vender/tree/d3.v3.min.js"></script>
 <script th:inline="JavaScript">
     window.redis_path="/Users/lzz/soft_install/redis/redis-cluster/redis01/redis-cli -c -p 8007 ";
     /*<![CDATA[*/

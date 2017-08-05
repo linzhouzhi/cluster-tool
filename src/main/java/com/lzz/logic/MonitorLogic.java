@@ -1,6 +1,8 @@
 package com.lzz.logic;
 
+import com.lzz.dao.NodeMonitorInfoDao;
 import com.lzz.model.MasterNode;
+import com.lzz.model.NodeModel;
 import com.lzz.model.SlaveNode;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -119,5 +121,23 @@ public class MonitorLogic {
             }
         }
         return  list;
+    }
+
+    public JSONObject getNodeMonitorInfo(String node, String date, String type) {
+        NodeMonitorInfoDao dao = new NodeMonitorInfoDao();
+        ArrayList filterFields = new ArrayList();
+        filterFields.add("clusterid");
+        filterFields.add("nodeid");
+        filterFields.add("host");
+        filterFields.add("ip");
+        filterFields.add("port");
+        filterFields.add("day");
+        filterFields.add("hour");
+        filterFields.add("minute");
+        filterFields.add("add_time");
+        List<NodeModel> list = dao.getNodeMonitorInfo(node, date, type, filterFields);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result", list);
+        return jsonObject;
     }
 }

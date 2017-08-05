@@ -1,5 +1,5 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>cluster tool</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -40,8 +40,94 @@
         stroke-width: 1.5px;
     }
 
+
+
+    .amcharts-graph-g1 .amcharts-graph-stroke {
+        stroke-dasharray: 3px 3px;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        -webkit-animation: am-moving-dashes 1s linear infinite;
+        animation: am-moving-dashes 1s linear infinite;
+    }
+
+    @-webkit-keyframes am-moving-dashes {
+        100% {
+            stroke-dashoffset: -30px;
+        }
+    }
+    @keyframes am-moving-dashes {
+        100% {
+            stroke-dashoffset: -30px;
+        }
+    }
+
+
+    .lastBullet {
+        -webkit-animation: am-pulsating 1s ease-out infinite;
+        animation: am-pulsating 1s ease-out infinite;
+    }
+    @-webkit-keyframes am-pulsating {
+        0% {
+            stroke-opacity: 1;
+            stroke-width: 0px;
+        }
+        100% {
+            stroke-opacity: 0;
+            stroke-width: 50px;
+        }
+    }
+    @keyframes am-pulsating {
+        0% {
+            stroke-opacity: 1;
+            stroke-width: 0px;
+        }
+        100% {
+            stroke-opacity: 0;
+            stroke-width: 50px;
+        }
+    }
+
+    .amcharts-graph-column-front {
+        -webkit-transition: all .3s .3s ease-out;
+        transition: all .3s .3s ease-out;
+    }
+    .amcharts-graph-column-front:hover {
+        fill: #496375;
+        stroke: #496375;
+        -webkit-transition: all .3s ease-out;
+        transition: all .3s ease-out;
+    }
+
+
+    .amcharts-graph-g2 {
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        stroke-dasharray: 500%;
+        stroke-dasharray: 0 \0/;    /* fixes IE prob */
+        stroke-dashoffset: 0 \0/;   /* fixes IE prob */
+        -webkit-animation: am-draw 40s;
+        animation: am-draw 40s;
+    }
+    @-webkit-keyframes am-draw {
+        0% {
+            stroke-dashoffset: 500%;
+        }
+        100% {
+            stroke-dashoffset: 0px;
+        }
+    }
+    @keyframes am-draw {
+        0% {
+            stroke-dashoffset: 500%;
+        }
+        100% {
+            stroke-dashoffset: 0px;
+        }
+    }
+
+
 </style>
-<body>
+<body >
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <!-- We use the fluid option here to avoid overriding the fixed width of a normal container within the narrow content columns. -->
     <div class="container-fluid">
@@ -76,6 +162,40 @@
 <div class="clearfix nav-height"></div>
 
 <div id="monitor-list-div"></div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div id="chartdiv" style="width:100%; height:400px;"></div>
+    </div>
+</div><!-- .panel -->
+
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-bordered" id="command-table">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>type</th>
+                    <th>metric</th>
+                    <th>error_message</th>
+                    <th>error_code</th>
+                    <th>add_time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="node : ${result.result}">
+                    <td th:text="${node.date}">id</td>
+                    <td th:text="${node.used_memory}">id</td>
+                    <td th:text="${node.mem_fragmentation_ratio}">id</td>
+                    <td th:text="${node.date}">id</td>
+                    <td th:text="${node.date}">id</td>
+                    <td th:text="${node.date}">id</td>
+                </tr>
+                </tbody>
+            </table>
+        </div><!-- .panel-body -->
+    </div><!-- .panel -->
+</div><!-- .row -->
 
 <script src="../vender/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <script src="../vender/sparrow/layer/layer.js"></script>
@@ -88,14 +208,15 @@
 <script src="../vender/sparrow/pack.js"></script>
 <script src="../vender/sparrow/smarty.js"></script>
 <script src="../vender/sparrow/validate.js"></script>
-<script src="/js/monitor_manager2.js"></script>
 <script src="/js/common.js"></script>
 <script src="../vender/tree/d3.v3.min.js"></script>
 <script th:inline="JavaScript">
     window.redis_path="/Users/lzz/soft_install/redis/redis-cluster/redis01/redis-cli -c -p 8007 ";
     /*<![CDATA[*/
-
+    var data = [[${result}]];
+    window.chartData = data.result;
     /*]]>*/
 </script>
+<script src="/js/monitor_manager2.js"></script>
 </body>
 </html>

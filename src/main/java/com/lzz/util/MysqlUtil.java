@@ -7,21 +7,21 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by lzz on 2017/7/30.
+ * Created by lzz on 2017/8/5.
  */
-public class SqlUtil extends SQLBase{
+public class MysqlUtil extends SQLBase{
     private static byte[] lock = new byte[0];
-    private static volatile  SqlUtil sqlUtil;
+    private static volatile  MysqlUtil mysqlUtil;
     private static SQLBase getInstance(){
-        if( null == sqlUtil ){
+        if( null == mysqlUtil ){
             synchronized ( lock ){
-                if( null == sqlUtil ){
+                if( null == mysqlUtil ){
                     ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-                    sqlUtil = (SqlUtil) ctx.getBean("sqlUitl");
+                    mysqlUtil = (MysqlUtil) ctx.getBean("mysqlUitl");
                 }
             }
         }
-        return sqlUtil;
+        return mysqlUtil;
     }
 
     /**
@@ -57,9 +57,5 @@ public class SqlUtil extends SQLBase{
 
     public static Map selectRow(String sql ){
         return getInstance().baseSelectRow( sql );
-    }
-
-    public static void initDb() {
-        getInstance().baseInitDb();
     }
 }

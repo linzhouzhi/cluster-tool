@@ -4,10 +4,7 @@ import com.lzz.logic.MonitorLogic;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
@@ -60,6 +57,29 @@ public class MonitorController {
         JSONObject obj = new JSONObject();
         obj.put("result", nodestr);
         return obj;
+    }
+
+    @RequestMapping(value = "/monitor_info2", method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject nodeMonitorInfo(
+            @RequestParam(value="date", defaultValue="minute") String date,
+            @RequestParam(value="type", defaultValue="max") String type,
+            @RequestParam(value="node", defaultValue="all") String node){
+        MonitorLogic logic = new MonitorLogic();
+        JSONObject res = logic.getNodeMonitorInfo(node, date, type);
+        return res;
+    }
+
+    @RequestMapping("/monitor_info")
+    public String manager3(
+            @RequestParam(value="date", defaultValue="minute") String date,
+            @RequestParam(value="type", defaultValue="max") String type,
+            @RequestParam(value="node", defaultValue="all") String node,
+            Model model){
+        MonitorLogic logic = new MonitorLogic();
+        JSONObject res = logic.getNodeMonitorInfo(node, date, type);
+        model.addAttribute("result", res);
+        return "monitor_manager2";
     }
 
 }

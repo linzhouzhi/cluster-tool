@@ -6,128 +6,152 @@ window.STATIC_URL = "http://localhost:8080/";
 window.SCRIPT_FILE = window.STATIC_URL + "jstpl/";
 set_server_arg(1460194057, "v0.2", true, 1);
 
+// 设置一下最后一个元素的效果
+var char_data = window.chartData;
+var data_len = char_data.length;
+char_data[ data_len -1 ].bulletClass = "lastBullet";
+char_data[ data_len -1 ].alpha = "0.4";
+var chart;
+AmCharts.ready(function () {
+    // SERIAL CHART
+    chart = new AmCharts.AmSerialChart();
+    chart.addClassNames = true;
+    chart.dataProvider = char_data;
+    chart.categoryField = "date";
+    chart.startused_cpu_sys = 1;
+    chart.color = "#000000";
+    chart.marginLeft = 0;
 
 
-// in order to set theme for a chart, all you need to include theme file
-// located in amcharts/themes folder and set theme property for the chart.
+    // as we have data of different units, we create three different value axes
+    // connected_clients value axis
+    var connected_clientsAxis = new AmCharts.ValueAxis();
+    connected_clientsAxis.title = "connected_clients";
+    connected_clientsAxis.gridAlpha = 0;
+    connected_clientsAxis.axisAlpha = 0;
+    chart.addValueAxis(connected_clientsAxis);
 
-var chart1;
-var chart2;
+    // used_memory_peak value axis
+    var used_memory_peakAxis = new AmCharts.ValueAxis();
+    used_memory_peakAxis.gridAlpha = 0;
+    used_memory_peakAxis.axisAlpha = 0;
+    used_memory_peakAxis.title = "used_cpu_sys and used_memory_peak";
+    used_memory_peakAxis.offset = 83;
+    used_memory_peakAxis.titleOffset = 10;
+    used_memory_peakAxis.position = "right";
+    chart.addValueAxis(used_memory_peakAxis);
 
-// Theme can only be applied when creating chart instance - this means
-// that if you need to change theme at run time, youhave to create whole
-// chart object once again.
+    // used_cpu_sys value axis
+    var used_cpu_sysAxis = new AmCharts.ValueAxis();
+    // the following line makes this value axis to convert values to used_cpu_sys
+    // it tells the axis what used_cpu_sys unit it should use. mm - minute, hh - hour...
+    used_cpu_sysAxis.gridAlpha = 0;
+    used_cpu_sysAxis.axisAlpha = 0;
+    used_cpu_sysAxis.inside = false;
+    used_cpu_sysAxis.position = "right";
+    chart.addValueAxis(used_cpu_sysAxis);
 
-function makeCharts(theme, bgColor, bgImage) {
+    // GRAPHS
+    // connected_clients graph
+    var connected_clientsGraph = new AmCharts.AmGraph();
+    connected_clientsGraph.valueField = "connected_clients";
+    connected_clientsGraph.title = "connected_clients";
+    connected_clientsGraph.type = "column";
+    connected_clientsGraph.fillAlphas = 0.9;
+    connected_clientsGraph.valueAxis = connected_clientsAxis; // indicate which axis should be used
+    connected_clientsGraph.balloonText = "[[value]] miles";
+    connected_clientsGraph.legendValueText = "[[value]] mi";
+    connected_clientsGraph.legendPeriodValueText = "total: [[value.sum]] mi";
+    connected_clientsGraph.lineColor = "#5bc0de";
+    connected_clientsGraph.alphaField = "alpha";
+    chart.addGraph(connected_clientsGraph);
 
-    if (chart1) {
-        chart1.clear();
-    }
-    if (chart2) {
-        chart2.clear();
-    }
+    // used_memory_peak graph
+    var used_memory_peakGraph = new AmCharts.AmGraph();
+    used_memory_peakGraph.valueField = "used_memory_peak";
+    used_memory_peakGraph.id = "g1";
+    used_memory_peakGraph.classNameField = "bulletClass";
+    used_memory_peakGraph.title = "used_memory_peak/city";
+    used_memory_peakGraph.type = "line";
+    used_memory_peakGraph.valueAxis = used_memory_peakAxis; // indicate which axis should be used
+    used_memory_peakGraph.lineColor = "#f0ad4e";
+    used_memory_peakGraph.lineThickness = 1;
+    used_memory_peakGraph.bullet = "round";
+    //used_memory_peakGraph.bulletSizeField = "used_memory_peak"; // indicate which field should be used for bullet size
+    used_memory_peakGraph.bulletBorderColor = "#efe948";
+    used_memory_peakGraph.bulletBorderAlpha = 1;
+    used_memory_peakGraph.bulletBorderThickness = 2;
+    used_memory_peakGraph.bulletColor = "#000000";
+    used_memory_peakGraph.labelText = "[[used_memory_peak]]"; // not all data points has townName2 specified, that's why labels are displayed only near some of the bullets.
+    used_memory_peakGraph.labelPosition = "right";
+    used_memory_peakGraph.balloonText = "used_memory_peak:[[value]]";
+    used_memory_peakGraph.showBalloon = true;
+    used_memory_peakGraph.animationPlayed = true;
+    chart.addGraph(used_memory_peakGraph);
 
-    // background
-    if (document.body) {
-        document.body.style.backgroundColor = bgColor;
-        document.body.style.backgroundImage = "url(" + bgImage + ")";
-    }
+    // used_cpu_sys graph
+    var used_cpu_sysGraph = new AmCharts.AmGraph();
+    used_cpu_sysGraph.id = "g2";
+    used_cpu_sysGraph.title = "used_cpu_sys";
+    used_cpu_sysGraph.valueField = "used_cpu_sys";
+    used_cpu_sysGraph.type = "line";
+    used_cpu_sysGraph.valueAxis = used_cpu_sysAxis; // indicate which axis should be used
+    used_cpu_sysGraph.lineColor = "#ff5755";
+    used_cpu_sysGraph.balloonText = "[[value]]";
+    used_cpu_sysGraph.lineThickness = 1;
+    used_cpu_sysGraph.legendValueText = "[[value]]";
+    used_cpu_sysGraph.bullet = "square";
+    used_cpu_sysGraph.bulletBorderColor = "#ff5755";
+    used_cpu_sysGraph.bulletBorderThickness = 1;
+    used_cpu_sysGraph.bulletBorderAlpha = 1;
+    used_cpu_sysGraph.dashLengthField = "dashLength";
+    used_cpu_sysGraph.animationPlayed = true;
+    chart.addGraph(used_cpu_sysGraph);
 
-    // column chart
-    chart1 = AmCharts.makeChart("chartdiv1", {
-        type: "serial",
-        theme: theme,
-        dataProvider: [{
-            "year": 2005,
-            "income": 23.5,
-            "expenses": 18.1
-        }, {
-            "year": 2006,
-            "income": 26.2,
-            "expenses": 22.8
-        }, {
-            "year": 2007,
-            "income": 30.1,
-            "expenses": 23.9
-        }, {
-            "year": 2008,
-            "income": 29.5,
-            "expenses": 25.1
-        }, {
-            "year": 2009,
-            "income": 24.6,
-            "expenses": 25
-        }],
-        categoryField: "year",
-        startDuration: 1,
+    // CURSOR
+    var chartCursor = new AmCharts.ChartCursor();
+    chartCursor.zoomable = false;
+    chartCursor.categoryBalloonDateFormat = undefined;
+    chartCursor.cursorAlpha = 0;
+    chartCursor.valueBalloonsEnabled = false;
+    chartCursor.valueLineBalloonEnabled = true;
+    chartCursor.valueLineEnabled = true;
+    chartCursor.valueLineAlpha = 0.5;
+    chart.addChartCursor(chartCursor);
 
-        categoryAxis: {
-            gridPosition: "start"
-        },
-        valueAxes: [{
-            title: "Million USD"
-        }],
-        graphs: [{
-            type: "column",
-            title: "Income",
-            valueField: "income",
-            lineAlpha: 0,
-            fillAlphas: 0.8,
-            balloonText: "[[title]] in [[category]]:<b>[[value]]</b>"
-        }, {
-            type: "line",
-            title: "Expenses",
-            valueField: "expenses",
-            lineThickness: 2,
-            fillAlphas: 0,
-            bullet: "round",
-            balloonText: "[[title]] in [[category]]:<b>[[value]]</b>"
-        }],
-        legend: {
-            useGraphSettings: true
-        }
+    // LEGEND
+    var legend = new AmCharts.AmLegend();
+    legend.bulletType = "round";
+    legend.equalWidths = false;
+    legend.valueWidth = 120;
+    legend.useGraphSettings = true;
+    legend.color = "#000000";
+    chart.addLegend(legend);
 
-    });
-
-    // pie chart
-    chart2 = AmCharts.makeChart("chartdiv2", {
-        type: "pie",
-        theme: theme,
-        dataProvider: [{
-            "country": "Czech Republic",
-            "litres": 156.9
-        }, {
-            "country": "Ireland",
-            "litres": 131.1
-        }, {
-            "country": "Germany",
-            "litres": 115.8
-        }, {
-            "country": "Australia",
-            "litres": 109.9
-        }, {
-            "country": "Austria",
-            "litres": 108.3
-        }, {
-            "country": "UK",
-            "litres": 65
-        }, {
-            "country": "Belgium",
-            "litres": 50
-        }],
-        titleField: "country",
-        valueField: "litres",
-        balloonText: "[[title]]<br><b>[[value]]</b> ([[percents]]%)",
-        legend: {
-            align: "center",
-            markerType: "circle"
-        }
-    });
-
-}
-
-var data = {};
-data["a"] = 1;
-smarty.post( "/monitor/list2", JSON.stringify(data), "monitor_list2","monitor-list-div",function () {
-    makeCharts("light", "#FFFFFF");
+    // WRITE
+    chart.write("chartdiv");
 });
+
+/*
+var data = {};
+data["date"] = "hour";
+data["type"] = "sum";
+smarty.html( "monitor_list2", JSON.stringify(data), "monitor-list-div",function () {
+    $.ajax({
+        url:'/monitor/monitor_info?type=' + data.type + "&&date=" + data.date,
+        type:'GET',
+        contentType: 'application/json',
+        async:true,
+        timeout:5000,
+        success:function(data){
+            window.chartData = data.result;
+            console.log( data.result );
+            //amcharts();
+        },
+        error: function (data) {
+            sparrow_win.msg( "刷新失败！", {icon:5} );
+        }
+    });
+});
+*/
+

@@ -34,6 +34,13 @@ public class TestJedis {
     }
 
     @Test
+    public void test001(){
+        RemoteShellTool rms = new RemoteShellTool("192.168.31.140", "lzz", "linzhouzhi", "utf-8");
+        String result = rms.exec( "echo 'linzhouzhi' | sudo -S docker logs cdf894c838f2" );
+        System.out.println(result);
+    }
+
+    @Test
     public void testJedis(){
         Jedis jedis = new Jedis("127.0.0.1",8018);
         String s = jedis.asking();

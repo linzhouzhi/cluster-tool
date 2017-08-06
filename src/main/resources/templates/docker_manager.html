@@ -28,23 +28,10 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
             <ul class="nav navbar-nav">
-                <li><a href="/docker/manager">docker-manager</a></li>
+                <li class="active"><a href="/docker/manager">docker-manager</a></li>
                 <li><a href="/node/manager">cluster-manager</a></li>
                 <li><a href="/monitor/manager">monitor</a></li>
                 <li><a href="/monitor/monitor_info">monitor_info</a></li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span id="select-clsuer" data-clusterid="4">cluster4</span> <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li class="select-cluster" data-clusterid="1"><a href="#">cluser1</a></li>
-                        <li class="select-cluster" data-clusterid="2"><a href="#">cluser2</a></li>
-                        <li class="select-cluster" data-clusterid="3"><a href="#">cluser3</a></li>
-                        <li class="select-cluster" data-clusterid="5"><a href="#">cluster5</a></li>
-                    </ul>
-                </li>
-                <li><a id="add-cluster" class="navbar-brand" href="#"><span class="glyphicon glyphicon-plus-sign"></span></a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
 
@@ -52,7 +39,7 @@
 </nav>
 <div class="clearfix nav-height"></div>
 
-<div id="node-list-div"></div>
+<div id="image-list-div"></div>
 
 <div class="container-fluid" id="footer">
     <div id="terminal">
@@ -82,7 +69,7 @@
 <script src="../vender/sparrow/validate.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/terminal.js"></script>
-<script src="/js/node_manager.js"></script>
+<script src="/js/docker_manager.js"></script>
 <script th:inline="JavaScript">
     window.redis_path="/Users/lzz/soft_install/redis/redis-cluster/redis01/redis-cli -c -p 8007 ";
     /*<![CDATA[*/

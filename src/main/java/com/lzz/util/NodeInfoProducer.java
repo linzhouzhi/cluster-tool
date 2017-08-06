@@ -26,6 +26,7 @@ public class NodeInfoProducer {
     public static Thread producer = new Thread(){
         @Override
         public void run() {
+            String clusterid= "reids01";
             List<Map> list = new ArrayList();
             Map host1 = new HashMap();
             host1.put("ip", "127.0.0.1");
@@ -57,6 +58,10 @@ public class NodeInfoProducer {
                         String strInfo = jedis.info();
                         NodeMonitorInfo info = getNodeMonitorInfo(strInfo);
                         NodeMonitorInfo resInfo = changeNodeInfoTime( info );
+                        resInfo.setClusterid( clusterid );
+                        resInfo.setHost( ip +":" + port);
+                        resInfo.setIp( ip );
+                        resInfo.setPort( port );
                         // 添加到数据库中
                         NodeMonitorInfoDao dao = new NodeMonitorInfoDao();
                         dao.addNodeInfo( resInfo );

@@ -66,10 +66,10 @@ public class NodeMonitorInfo {
     private float used_cpu_sys_children;
     private float used_cpu_user_children;
 
-    private int clusterid;
-    private int nodeid;
-    private int host;
-    private int ip;
+    private String clusterid;
+    private String nodeid;
+    private String host;
+    private String ip;
     private int port;
 
     private int day;
@@ -317,35 +317,35 @@ public class NodeMonitorInfo {
         this.used_cpu_user_children = used_cpu_user_children;
     }
 
-    public int getClusterid() {
+    public String getClusterid() {
         return clusterid;
     }
 
-    public void setClusterid(int clusterid) {
+    public void setClusterid(String clusterid) {
         this.clusterid = clusterid;
     }
 
-    public int getNodeid() {
+    public String getNodeid() {
         return nodeid;
     }
 
-    public void setNodeid(int nodeid) {
+    public void setNodeid(String nodeid) {
         this.nodeid = nodeid;
     }
 
-    public int getHost() {
+    public String getHost() {
         return host;
     }
 
-    public void setHost(int host) {
+    public void setHost(String host) {
         this.host = host;
     }
 
-    public int getIp() {
+    public String getIp() {
         return ip;
     }
 
-    public void setIp(int ip) {
+    public void setIp(String ip) {
         this.ip = ip;
     }
 

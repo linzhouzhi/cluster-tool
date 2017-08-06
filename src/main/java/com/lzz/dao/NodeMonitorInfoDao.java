@@ -40,7 +40,12 @@ public class NodeMonitorInfoDao {
 
         NodeMonitorInfo nodeInfo = new NodeMonitorInfo();
         sql += MysqlUtil.groupStr(nodeInfo, "node_info", type, filterFields);
-        sql += " where add_time > " + add_time + groupby;
+        if( "all".equals(node) ){
+            sql += " where add_time > " + add_time + groupby;
+        }else{
+            sql += " where add_time > " + add_time + " and host='" + node + "' " + groupby;
+        }
+
         System.out.println( sql );
         List<NodeModel> list = MysqlUtil.select(sql);
         return list;

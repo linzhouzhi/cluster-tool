@@ -6,6 +6,127 @@ window.STATIC_URL = "http://localhost:8080/";
 window.SCRIPT_FILE = window.STATIC_URL + "jstpl/";
 set_server_arg(1460194057, "v0.2", true, 1);
 
+
+makeCharts("light", "#FFFFFF","used_cpu_sys");
+
+// Theme can only be applied when creating chart instance - this means
+// that if you need to change theme at run time, youhave to create whole
+// chart object once again.
+
+function makeCharts(theme, bgColor, field) {
+    var len = window.chartData.length;
+    var char3_data = [];
+    var char_data_table = [];
+    var j = 0;
+    if(len > 10){
+        for(var i = (len - 10); i < len; i++ ){
+            char_data_table[j] = window.chartData[i];
+            j++;
+        }
+    }else{
+        char_data_table = window.chartData;
+    }
+    var k = 0;
+    if(len > 5){
+        for(var i = (len - 5); i < len; i++ ){
+            char3_data[k] = window.chartData[i];
+            k++;
+        }
+    }else{
+        char3_data = window.chartData;
+    }
+
+
+    var chart1;
+    var chart2;
+    var chart3;
+
+    if (chart1) {
+        chart1.clear();
+    }
+    if (chart2) {
+        chart2.clear();
+    }
+    if (chart3) {
+        chart3.clear();
+    }
+
+    // background
+    if (document.body) {
+        document.body.style.backgroundColor = bgColor;
+    }
+
+    // column chart
+    chart1 = AmCharts.makeChart("chartdiv_table1", {
+        type: "serial",
+        theme: theme,
+        dataProvider: char_data_table,
+        categoryField: "date",
+        startDuration: 1,
+
+        categoryAxis: {
+            gridPosition: "start"
+        },
+        valueAxes: [{
+            title: "Million USD"
+        }],
+        graphs: [{
+            type: "column",
+            title: field,
+            valueField: field,
+            lineAlpha: 0,
+            fillAlphas: 0.8,
+            balloonText: "[[title]] in [[category]]:<b>[[value]]</b>"
+        }],
+        legend: {
+            useGraphSettings: true
+        }
+
+    });
+
+    chart2 = AmCharts.makeChart("chartdiv_table2", {
+        type: "serial",
+        theme: theme,
+        dataProvider: char_data_table,
+        categoryField: "date",
+        startDuration: 1,
+
+        categoryAxis: {
+            gridPosition: "start"
+        },
+        valueAxes: [{
+            title: "Million USD"
+        }],
+        graphs: [{
+            type: "line",
+            title: field,
+            valueField: field,
+            lineThickness: 2,
+            fillAlphas: 0,
+            bullet: "round",
+            balloonText: "[[title]] in [[category]]:<b>[[value]]</b>"
+        }],
+        legend: {
+            useGraphSettings: true
+        }
+
+    });
+
+    // pie chart
+    chart3 = AmCharts.makeChart("chartdiv_table3", {
+        type: "pie",
+        theme: theme,
+        dataProvider: char3_data,
+        titleField: "date",
+        valueField: field,
+        balloonText: "[[title]]<br><b>[[value]]</b> ([[percents]]%)",
+        legend: {
+            align: "center",
+            markerType: "circle"
+        }
+    });
+}
+
 // 设置一下最后一个元素的效果
 var char_data = window.chartData;
 var data_len = char_data.length;
@@ -21,6 +142,11 @@ AmCharts.ready(function () {
     chart.startused_cpu_sys = 1;
     chart.color = "#000000";
     chart.marginLeft = 0;
+    chart.addListener("dataUpdated", function () {
+        if( char_data.length > 10 ){
+            chart.zoomToIndexes(char_data.length - 10, char_data.length);
+        }
+    });
 
 
     // as we have data of different units, we create three different value axes
@@ -119,6 +245,10 @@ AmCharts.ready(function () {
     chartCursor.valueLineAlpha = 0.5;
     chart.addChartCursor(chartCursor);
 
+    // SCROLLBAR
+    var chartScrollbar = new AmCharts.ChartScrollbar();
+    chart.addChartScrollbar(chartScrollbar);
+
     // LEGEND
     var legend = new AmCharts.AmLegend();
     legend.bulletType = "round";
@@ -132,6 +262,12 @@ AmCharts.ready(function () {
     chart.write("chartdiv");
 });
 
+$("#field-title > th").click(function () {
+    var field = $(this).data("field");
+    $("#field-title > th").removeClass("selected");
+    $(this).addClass("selected");
+    makeCharts("light", "#FFFFFF", field);
+});
 /*
 var data = {};
 data["date"] = "hour";

@@ -160,42 +160,143 @@
     </div>
 </nav>
 <div class="clearfix nav-height"></div>
+<div class="container-fluid container-title">
+    <div class="container-title-content">
+        <div class="pull-left">
+            <h1>cluster monitor</h1>
+            <p>cluster tool monitror center</p>
+        </div>
+        <div class="pull-right" style="margin-top:55px">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" /> 7 day
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" /> 24 hour
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" /> 60 minute
+                    </label>
+                </div>
+                <div class="form-group">
+                    <select class="form-control">
+                        <option>max</option>
+                        <option>max</option>
+                        <option>min</option>
+                        <option>avg</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control">
+                        <option>all-instance</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- .container-fluid -->
 
 <div id="monitor-list-div"></div>
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div id="chartdiv" style="width:100%; height:400px;"></div>
-    </div>
-</div><!-- .panel -->
 
-<div class="row">
+<div class="container-fluid">
+    <div class="">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="chartdiv" style="width:100%; height:400px;"></div>
+            </div>
+        </div><!-- .panel -->
+    </div><!-- .row -->
     <div class="panel panel-default">
-        <div class="panel-body">
+        <div class="panel-body" style="overflow: auto">
+            <div class="row">
+                <div id="chartdiv_table1" class="col-md-4" style="height: 350px"></div>
+                <div id="chartdiv_table2" class="col-md-4" style="height: 350px"></div>
+                <div id="chartdiv_table3" class="col-md-4" style="height: 350px"></div>
+            </div>
+        </div>
+        <div class="panel-body" style="overflow: auto">
             <table class="table table-bordered" id="command-table">
                 <thead>
-                <tr>
-                    <th>id</th>
-                    <th>type</th>
-                    <th>metric</th>
-                    <th>error_message</th>
-                    <th>error_code</th>
-                    <th>add_time</th>
+                <tr id="field-title">
+                    <th data-field="date">date</th>
+                    <th data-field="connected_clients">connected_clients</th>
+                    <th data-field="blocked_clients">blocked_clients</th>
+                    <th data-field="used_memory">used_memory</th>
+                    <th data-field="used_memory_rss">used_memory_rss</th>
+                    <th data-field="used_memory_peak">used_memory_peak</th>
+                    <th data-field="mem_fragmentation_ratio">mem_fragmentation_ratio</th>
+                    <th data-field="aof_enabled">aof_enabled</th>
+                    <th data-field="total_connections_received">total_connections_received</th>
+                    <th data-field="total_commands_processed">total_commands_processed</th>
+                    <th data-field="instantaneous_ops_per_sec">instantaneous_ops_per_sec</th>
+                    <th data-field="total_net_input_bytes">total_net_input_bytes</th>
+                    <th data-field="total_net_output_bytes">total_net_output_bytes</th>
+                    <th data-field="instantaneous_input_kbps">instantaneous_input_kbps</th>
+                    <th data-field="instantaneous_input_kbps">instantaneous_input_kbps</th>
+                    <th data-field="instantaneous_output_kbps">instantaneous_output_kbps</th>
+                    <th data-field="rejected_connections">rejected_connections</th>
+                    <th data-field="sync_full">sync_full</th>
+                    <th data-field="sync_partial_ok">sync_partial_ok</th>
+                    <th data-field="sync_partial_err">sync_partial_err</th>
+                    <th data-field="expired_keys">expired_keys</th>
+                    <th data-field="evicted_keys">evicted_keys</th>
+                    <th data-field="keyspace_hits">keyspace_hits</th>
+                    <th data-field="keyspace_misses">keyspace_misses</th>
+                    <th data-field="pubsub_channels">pubsub_channels</th>
+                    <th data-field="pubsub_patterns">pubsub_patterns</th>
+                    <th data-field="latest_fork_usec">latest_fork_usec</th>
+                    <th data-field="migrate_cached_sockets">migrate_cached_sockets</th>
+                    <th data-field="used_cpu_sys">used_cpu_sys</th>
+                    <th data-field="used_cpu_user">used_cpu_user</th>
+                    <th data-field="used_cpu_sys_children">used_cpu_sys_children</th>
+                    <th data-field="used_cpu_user_children">used_cpu_user_children</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="node : ${result.result}">
-                    <td th:text="${node.date}">id</td>
-                    <td th:text="${node.used_memory}">id</td>
-                    <td th:text="${node.mem_fragmentation_ratio}">id</td>
-                    <td th:text="${node.date}">id</td>
-                    <td th:text="${node.date}">id</td>
-                    <td th:text="${node.date}">id</td>
+                    <td th:text="${node.date}">date</td>
+                    <td th:text="${node.connected_clients}">connected_clients</td>
+                    <td th:text="${node.blocked_clients}">blocked_clients</td>
+                    <td th:text="${node.used_memory}">used_memory</td>
+                    <td th:text="${node.used_memory_rss}">used_memory_rss</td>
+                    <td th:text="${node.used_memory_peak}">used_memory_peak</td>
+                    <td th:text="${node.mem_fragmentation_ratio}">mem_fragmentation_ratio</td>
+                    <td th:text="${node.aof_enabled}">aof_enabled</td>
+                    <td th:text="${node.total_connections_received}">total_connections_received</td>
+                    <td th:text="${node.total_commands_processed}">total_commands_processed</td>
+                    <td th:text="${node.instantaneous_ops_per_sec}">instantaneous_ops_per_sec</td>
+                    <td th:text="${node.total_net_input_bytes}">total_net_input_bytes</td>
+                    <td th:text="${node.total_net_output_bytes}">total_net_output_bytes</td>
+                    <td th:text="${node.instantaneous_input_kbps}">instantaneous_input_kbps</td>
+                    <td th:text="${node.instantaneous_input_kbps}">instantaneous_input_kbps</td>
+                    <td th:text="${node.instantaneous_output_kbps}">instantaneous_output_kbps</td>
+                    <td th:text="${node.rejected_connections}">rejected_connections</td>
+                    <td th:text="${node.sync_full}">sync_full</td>
+                    <td th:text="${node.sync_partial_ok}">sync_partial_ok</td>
+                    <td th:text="${node.sync_partial_err}">sync_partial_err</td>
+                    <td th:text="${node.expired_keys}">expired_keys</td>
+                    <td th:text="${node.evicted_keys}">evicted_keys</td>
+                    <td th:text="${node.keyspace_hits}">keyspace_hits</td>
+                    <td th:text="${node.keyspace_misses}">keyspace_misses</td>
+                    <td th:text="${node.pubsub_channels}">pubsub_channels</td>
+                    <td th:text="${node.pubsub_patterns}">pubsub_patterns</td>
+                    <td th:text="${node.latest_fork_usec}">latest_fork_usec</td>
+                    <td th:text="${node.migrate_cached_sockets}">migrate_cached_sockets</td>
+                    <td th:text="${node.used_cpu_sys}">used_cpu_sys</td>
+                    <td th:text="${node.used_cpu_user}">used_cpu_user</td>
+                    <td th:text="${node.used_cpu_sys_children}">used_cpu_sys_children</td>
+                    <td th:text="${node.used_cpu_user_children}">used_cpu_user_children</td>
                 </tr>
                 </tbody>
             </table>
         </div><!-- .panel-body -->
-    </div><!-- .panel -->
-</div><!-- .row -->
+    </div>
+</div><!-- .container-fluid -->
 
 <script src="../vender/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <script src="../vender/sparrow/layer/layer.js"></script>

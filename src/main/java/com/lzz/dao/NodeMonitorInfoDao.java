@@ -22,22 +22,25 @@ public class NodeMonitorInfoDao {
 
     public List<NodeModel> getNodeMonitorInfo(String node, String date, String type, ArrayList filterFields) {
         String sql = "select ";
+        String groupby = " group by " + date + " ";
         int add_time = 0;
         long currentTime = System.currentTimeMillis() / 1000;
         if(date.equals( "day" )){
             sql += "day as date, ";
             add_time = (int) (currentTime - (7 * 24 * 60 * 60));
         }else if( date.equals("hour")){
-            sql += "hour as date, ";
-            add_time = (int) (currentTime - (12 * 60 * 60));
+            sql += "concat(day,':',hour) as date, ";
+            groupby += ",day order by day,hour";
+            add_time = (int) (currentTime - (24 * 60 * 60));
         }else if( date.equals("minute") ){
-            sql += "minute as date, ";
-            add_time = (int) (currentTime - (15 * 60));
+            sql += "concat(hour, ':', minute) as date, ";
+            groupby += ",hour,day order by day,hour,minute";
+            add_time = (int) (currentTime - (60 * 60));
         }
 
         NodeMonitorInfo nodeInfo = new NodeMonitorInfo();
         sql += MysqlUtil.groupStr(nodeInfo, "node_info", type, filterFields);
-        sql += " where add_time > " + add_time + " group by " + date;
+        sql += " where add_time > " + add_time + groupby;
         System.out.println( sql );
         List<NodeModel> list = MysqlUtil.select(sql);
         return list;

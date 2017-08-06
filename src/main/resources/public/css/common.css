@@ -34,3 +34,11 @@
     color:#d9534f;
 }
 
+#field-title > th{
+    cursor:pointer;
+}
+.selected{
+    background-color: #67b7dc;
+    color:#ffffff
+}
+

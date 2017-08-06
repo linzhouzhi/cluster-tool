@@ -268,6 +268,18 @@ $("#field-title > th").click(function () {
     $(this).addClass("selected");
     makeCharts("light", "#FFFFFF", field);
 });
+
+$(function(){
+
+    $(".monitor-info-request").change(function () {
+        var tmp = {};
+        tmp.date = $("input[name='date']:checked").val();
+        tmp.type = $("select[name='type']").val();
+        tmp.node = $("select[name='node']").val();
+        set_cookie("monitor_request_data", JSON.stringify(tmp));
+        window.location.href = window.STATIC_URL + "/monitor/monitor_info" + "?type=" + tmp.type + "&&date="+ tmp.date +"&&node=" + tmp.node;
+    });
+});
 /*
 var data = {};
 data["date"] = "hour";

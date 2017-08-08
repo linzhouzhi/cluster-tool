@@ -14,8 +14,28 @@
 <script src="../vender/bootstrap-3.3.7-dist/js/bootstrap3-typeahead.js"></script>
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-<style>
-
+<style type="text/css">
+    #service-list{
+        float:left;
+        width:100%;
+        padding:0;
+        margin: 5px 0 5px 20px;
+        list-style-type:none;
+    }
+    #service-list > li > a {
+        float:left;
+        text-decoration:none;
+        color: rgba(4, 1, 3, 0.99);
+        background-color: #f8f8f9;
+        padding:0.2em 0.6em;
+        border-right:5px solid white;
+        font-size: 18px;
+    }
+    #service-list > li > a:hover {
+        text-decoration:none;
+        background-color: #16eeff
+    }
+    #service-list > li {display:inline}
 </style>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">

@@ -15,8 +15,20 @@ function images_list() {
     });
 }
 
+$(document).on("click", "#image-list", function () {
+    smarty.html( "image_list_nav", {}, "image-list-content-div",function () {
+
+    });
+});
+
+$(document).on("click",".list-group-item", function () {
+    smarty.html( "service_list", {}, "image-add-content-div",function () {
+
+    });
+});
+
 $(document).on("click", "#add-image", function () {
-    smarty.html( "add_image", {}, "image-list-content-div",function () {
+    smarty.html( "add_image", {}, "image-add-content-div",function () {
         add_image_form_init();
         $("#confirm-add-image").click(function(){
             var data = {};

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-      <div class="col-md-3">
+      <div style="width:250px" class="pull-left">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
           <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingOne" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -53,7 +53,7 @@
           </div>
         </div>
       </div><!-- .col-md-3 -->
-      <div class="col-md-9">
+      <div style="padding-left:256px;margin 0 auto">
 
         <div class="panel panel-default">
             <div id="image-add-content-div">

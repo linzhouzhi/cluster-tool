@@ -67,11 +67,10 @@ public class HttpUtil {
      *
      * @param url
      *            发送请求的 URL
-     * @param param
      *            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
      * @return 所代表远程资源的响应结果
      */
-    public static String sendPost(String url, String param) {
+    public static String sendPost(String url, JSONObject reqObj) {
         PrintWriter out = null;
         BufferedReader in = null;
         String result = "";
@@ -82,13 +81,14 @@ public class HttpUtil {
             // 设置通用的请求属性
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
+            conn.setRequestProperty("Content-Type", "application/json");
             // 发送POST请求必须设置如下两行
             conn.setDoOutput(true);
             conn.setDoInput(true);
             // 获取URLConnection对象对应的输出流
             out = new PrintWriter(conn.getOutputStream());
             // 发送请求参数
-            out.print(param);
+            out.print(reqObj.toString());
             // flush输出流的缓冲
             out.flush();
 

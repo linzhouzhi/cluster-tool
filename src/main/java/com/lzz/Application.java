@@ -1,6 +1,5 @@
 package com.lzz;
 
-import com.lzz.util.NodeInfoProducer;
 import com.lzz.util.SqlUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,9 +14,9 @@ public class Application {
         SpringApplication.run(Application.class, args);
         SqlUtil.initDb();
 
-        NodeInfoProducer.producer.setName("NodeInfoProducer");
-        NodeInfoProducer.producer.setDaemon(true);
-        NodeInfoProducer.producer.start();
+        //NodeInfoProducer.producer.setName("NodeInfoProducer");
+        //NodeInfoProducer.producer.setDaemon(true);
+        //NodeInfoProducer.producer.start();
     }
 
 }

@@ -28,6 +28,16 @@
               <div id="install_path_tip"></div>
           </div>
           <div class="form-group">
+            <label>start service</label>
+            <input name="start_service" type="text" class="form-control" data-require="1" data-len="4-255" data-len-msg="字符串长度为4-255"  data-format-msg="只能由英文字母和数字组成且 ／ 开头" placeholder="sh start.sh">
+            <div id="start_service_tip"></div>
+          </div>
+          <div class="form-group">
+            <label>stop service</label>
+            <input name="stop_service" type="text" class="form-control" data-require="1" data-len="4-255" data-len-msg="字符串长度为4-255"  data-format-msg="只能由英文字母和数字组成且 ／ 开头" placeholder="sh stop.sh">
+            <div id="stop_service_tip"></div>
+          </div>
+          <div class="form-group">
             <label class="radio-inline">
               <input type="radio" checked="true" name="server" value="redis"> redis
             </label>
@@ -37,6 +47,13 @@
             <label class="radio-inline">
               <input type="radio" name="server" value="zookeeper"> zookeeper
             </label>
+            <label class="radio-inline">
+              <input id="other-radio" type="radio" name="other" value="other"> other
+            </label>
+          </div>
+          <div class="form-group hidden" id="package-form">
+            <label class="control-label">Select File</label>
+            <input id="backage-upload" name="package" type="file" class="file" data-show-preview="false">
           </div>
           <button id="confirm-add-node" class="btn btn-default">submit</button>
         </div>

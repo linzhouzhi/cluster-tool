@@ -40,13 +40,19 @@ public class SystemWebSocketHandler implements WebSocketHandler {
         String install_path = reqObject.getString("install_path").trim();
         String username = reqObject.getString("username").trim();
         String password = reqObject.getString("password").trim();
-
+        username="lzz";
+        password="363216";
         RemoteShellTool rms = new RemoteShellTool(ip, username, password, "utf-8");
+        /*
         String[] cmds = new String[4];
         cmds[0] = "cd " + install_path;
         cmds[1] = "/usr/local/bin/wget http://localhost:" + port + "/package/redis-install.sh";
         cmds[2] = "chmod 775 redis-install.sh";
         cmds[3] = "./redis-install.sh";
+        */
+        String[] cmds = new String[1];
+        cmds[0] = "tail -f /Users/lzz/work/test/error.log";
+
 
         String cmd = StringUtils.join( cmds, ";");
         System.out.println( cmd );

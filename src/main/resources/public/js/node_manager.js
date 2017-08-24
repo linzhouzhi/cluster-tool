@@ -233,7 +233,7 @@ $(function () {
             $("#confirm-add-node").click(function(){
                 var data = {};
                 var cluster_data = JSON.parse( get_cookie("cluster_data") );
-                data["clusterid"] = cluster_data.clusterid;
+                //data["clusterid"] = cluster_data.clusterid;
                 data["ip"] = $("input[name='ip']").val();
                 data["port"] = $("input[name='port']").val();
                 data["username"] = $("input[name='username']").val();

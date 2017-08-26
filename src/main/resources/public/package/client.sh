@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-registry_path="http://localhost:8080/node/"
+#!/bin/bash
+registry_path="http://192.168.31.147:8080/"
 help_msg="only support list,pull and push"
 type=$1
 filename=$2
@@ -11,9 +11,11 @@ fi
 case "${type}" in
     "list" )
         echo "list"
+        curl "${registry_path}node/list_package"
     ;;
     "pull" )
     	echo "pull"
+    	curl -O "${registry_path}package/${filename}"
     ;;
     "push" )
         if [ $# -le 2 ] ; then
@@ -21,7 +23,7 @@ case "${type}" in
             exit 1;
         fi
         echo "start upload....."
-        curl "${registry_path}upload_package" -F "package=@${filename}"
+        curl "${registry_path}node/push_package" -F "package=@${filename}"
     ;;
     * )
         echo "$help_msg"

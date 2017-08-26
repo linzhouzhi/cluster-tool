@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lzz on 2017/7/28.
@@ -27,11 +29,25 @@ public class NodeController {
     public JSONObject list(@RequestBody String jsonBody){
         JSONObject reqObject = JSONObject.fromObject(jsonBody);
         NodeLogic nodeLogic = new NodeLogic();
-        JSONObject jsonObject = nodeLogic.listNode(reqObject);
+        //JSONObject jsonObject = nodeLogic.listNode(reqObject);
+        JSONObject jsonObject = new JSONObject();
         return jsonObject;
     }
 
-    @RequestMapping(value = "/upload_package", method = RequestMethod.POST)
+    @RequestMapping(value = "/list_package", method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject list(){
+        JSONObject jsonObject = new JSONObject();
+        List<String> list = new ArrayList();
+        list.add("image1 v1");
+        list.add("image1 v2");
+        list.add("image1 v3");
+        list.add("image2 v1");
+        jsonObject.put("result", list);
+        return jsonObject;
+    }
+
+    @RequestMapping(value = "/push_package", method = RequestMethod.POST)
     public @ResponseBody String handleFileUpload(@RequestParam(value = "name",defaultValue = "hhh") String name,
                                                  @RequestParam("package") MultipartFile file){
         if (!file.isEmpty()) {

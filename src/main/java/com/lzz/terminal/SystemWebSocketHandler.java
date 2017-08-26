@@ -42,18 +42,11 @@ public class SystemWebSocketHandler implements WebSocketHandler {
         String password = reqObject.getString("password").trim();
         username="lzz";
         password="363216";
-        RemoteShellTool rms = new RemoteShellTool(ip, username, password, "utf-8");
-        /*
-        String[] cmds = new String[4];
-        cmds[0] = "cd " + install_path;
-        cmds[1] = "/usr/local/bin/wget http://localhost:" + port + "/package/redis-install.sh";
-        cmds[2] = "chmod 775 redis-install.sh";
-        cmds[3] = "./redis-install.sh";
-        */
-        String[] cmds = new String[1];
-        cmds[0] = "tail -f /Users/lzz/work/test/error.log";
-
-
+        RemoteShellTool rms = new RemoteShellTool("192.168.31.140", "lzz", "linzhouzhi", "utf-8");
+        String[] cmds = new String[3];
+        cmds[0] = "cd /home/lzz/work/cluster-test";
+        cmds[1] = "wget http://192.168.31.147:8080/shell/install.sh";
+        cmds[2] = "sh install.sh 'zookeeper-3.4.8.tar.gz'";
         String cmd = StringUtils.join( cmds, ";");
         System.out.println( cmd );
         rms.exec2( session, cmd );

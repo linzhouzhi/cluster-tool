@@ -209,8 +209,17 @@ $(function () {
         node_list();
     });
 
-    $(document).on("click", "#new-nodes", function () {
-        node_list();
+    $(document).on("click", "#add-service-image", function () {
+        smarty.html( "add_service_image", {}, "node-list-content-div",function () {
+            $('#backage-upload').fileinput({
+                uploadUrl: 'http://localhost:8080/node/push_package',
+                allowedFileExtensions: ['jpg', 'png', 'gif']
+            });
+            $("#confirm-add-service-image").click(function () {
+                var data_submit = sparrow_form.encode( 'add-service-image-form' );
+                console.log( data_submit );
+            });
+        });
     });
 
     $(document).on("click", "#node-list", function () {
@@ -220,17 +229,10 @@ $(function () {
     $(document).on("click", "#add-node", function () {
         smarty.html( "add_node", {}, "node-list-content-div",function () {
 
-            $('#backage-upload').fileinput({
-                uploadUrl: 'http://localhost:8080/node/upload_package',
-                allowedFileExtensions: ['jpg', 'png', 'gif']
-            });
-
-            $("#other-radio").click(function () {
-                $("#package-form").removeClass("hidden");
-            });
-
             add_node_form_init();
             $("#confirm-add-node").click(function(){
+                var data_submit = sparrow_form.encode( 'add-node-form' );
+                console.log( data_submit );
                 var data = {};
                 var cluster_data = JSON.parse( get_cookie("cluster_data") );
                 //data["clusterid"] = cluster_data.clusterid;

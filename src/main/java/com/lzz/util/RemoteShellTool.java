@@ -66,6 +66,9 @@ public class RemoteShellTool {
                 session.execCommand(cmds);
                 in = session.getStdout();
                 result = this.processStdout(in, this.charset);
+                InputStream errin = null;
+                errin = session.getStderr();
+                result += this.processStdout(errin, this.charset);
             }
         } catch (IOException e1) {
             e1.printStackTrace();

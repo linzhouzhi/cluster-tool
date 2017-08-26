@@ -16,9 +16,9 @@ public class NodeLogic {
     public JSONObject addNode(JSONObject reqObject) {
         NodeModel node = (NodeModel) JSONObject.toBean( reqObject, NodeModel.class);
         NodeDao node1 = new NodeDao();
-        boolean res = node1.addNode( node );
+        //boolean res = node1.addNode( node );
         JSONObject result = new JSONObject();
-        result.put("result", res);
+        result.put("result", null);
         return result;
     }
 

@@ -48,7 +48,8 @@ public class NodeController {
     }
 
     @RequestMapping(value = "/push_package", method = RequestMethod.POST)
-    public @ResponseBody String handleFileUpload(@RequestParam(value = "name",defaultValue = "hhh") String name,
+    @ResponseBody
+    public String handleFileUpload(@RequestParam(value = "name",defaultValue = "hhh") String name,
                                                  @RequestParam("package") MultipartFile file){
         if (!file.isEmpty()) {
             try {

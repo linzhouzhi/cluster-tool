@@ -25,5 +25,5 @@ public class TestDataFormatUtil {
         String res = DataFormatUtil.formatAccessLog( machine, "/Users/lzz/test.log", fields, 1232, filter, 6);
         System.out.println( res );
     }
-    
+
 }

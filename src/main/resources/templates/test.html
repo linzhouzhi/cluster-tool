@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    var content = "fd'a'sf\nfd's'af\nfds'a'fdsa\nff'f'ff\n34'4'44";
+    console.log(content);
+    var lines = content.split("\n");
+    var table_str = "";
+    var logfields = ["f1","f2"];
+    table_str += "<tr>";
+    for(ii in logfields){
+        table_str += "<th>" + logfields[ii] + "</th>";
+    }
+    table_str += "</tr>";
+    for(i in lines){
+        var fields = lines[i].split("'");
+        if( logfields.length <= fields.length ){
+            table_str += "<tr>";
+            for(var j = 0; j < logfields.length; j++){
+                table_str += "<td>" + fields[j] + "</td>";
+            }
+            table_str += "</tr>";
+        }
+    }
+    console.log( table_str);
+</script>
+</html>

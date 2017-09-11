@@ -42,8 +42,8 @@ public class TestJedis {
 
     @Test
     public void testJedis(){
-        Jedis jedis = new Jedis("127.0.0.1",8018);
-        String s = jedis.asking();
+        Jedis jedis = new Jedis("127.0.0.1",8000);
+        String s = jedis.info();
         System.out.println( s );
         //jedis.clusterMeet("127.0.0.1", 8006);
     }
